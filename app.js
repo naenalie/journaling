@@ -1,4 +1,5 @@
 import { JournalStorage } from './js/storage.js';
+import { JournalStats } from './js/stats.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Select navigation tabs and panel sections
@@ -39,9 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 3. Render content if navigating to history
+    // 3. Render content if navigating to history or analytics
     if (panelId === 'panel-history') {
       renderHistory();
+    } else if (panelId === 'panel-analytics') {
+      renderAnalytics();
     }
   }
 
@@ -74,6 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMoodBadge = document.getElementById('modal-mood-badge');
   const modalContent = document.getElementById('modal-content');
   const modalTagList = document.getElementById('modal-tag-list');
+
+  // Analytics & Backup References
+  const statsStreakNum = document.getElementById('stats-streak-num');
+  const statsStreakDesc = document.getElementById('stats-streak-desc');
+  const statsTagsContainer = document.getElementById('stats-tags-container');
+  const btnExport = document.getElementById('btn-export');
+  const importFile = document.getElementById('import-file');
 
   // ==========================================
   // MOOD SELECTOR WIDGET
@@ -339,7 +349,95 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Helper date formatter
+  // ==========================================
+  // DASHBOARD STATISTICS
+  // ==========================================
+  function renderAnalytics() {
+    const entries = JournalStorage.getAllEntries();
+
+    // 1. Render streak count
+    const streak = JournalStats.getStreak(entries);
+    if (statsStreakNum) statsStreakNum.textContent = streak;
+    if (statsStreakDesc) {
+      if (streak > 0) {
+        statsStreakDesc.textContent = `Hebat! Anda mencatat beruntun selama ${streak} hari. Pertahankan kebiasaan baik ini!`;
+      } else {
+        statsStreakDesc.textContent = 'Mulai menulis catatan hari ini untuk membangun rantai streak mencatat Anda!';
+      }
+    }
+
+    // 2. Render top tags bar charts
+    const topTags = JournalStats.getTagFrequency(entries).slice(0, 5);
+    if (statsTagsContainer) {
+      statsTagsContainer.innerHTML = '';
+      if (topTags.length === 0) {
+        statsTagsContainer.innerHTML = `<div style="text-align:center; padding: 10px; color: var(--color-muted); font-family: 'Patrick Hand'; font-size: 1.1rem;">Belum ada tag yang digunakan.</div>`;
+      } else {
+        const maxCount = topTags[0].count;
+        topTags.forEach(tag => {
+          const percent = Math.round((tag.count / maxCount) * 100);
+          const item = document.createElement('div');
+          item.className = 'stats-bar-item';
+          item.innerHTML = `
+            <div class="stats-bar-label-row">
+              <span class="stats-bar-label">#${tag.name}</span>
+              <span class="stats-bar-count">${tag.count} kali</span>
+            </div>
+            <div class="stats-bar-outer">
+              <div class="stats-bar-inner" style="width: ${percent}%;"></div>
+            </div>
+          `;
+          statsTagsContainer.appendChild(item);
+        });
+      }
+    }
+  }
+
+  // ==========================================
+  // DATA BACKUP (EXPORT/IMPORT JSON)
+  // ==========================================
+  if (btnExport) {
+    btnExport.addEventListener('click', () => {
+      const entries = JournalStorage.getAllEntries();
+      if (entries.length === 0) {
+        alert('Tidak ada catatan untuk diekspor.');
+        return;
+      }
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(entries, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `moody-journal-backup-${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    });
+  }
+
+  if (importFile) {
+    importFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const content = event.target.result;
+        const success = JournalStorage.importData(content);
+        if (success) {
+          alert('Data berhasil diimpor! 📤');
+          importFile.value = '';
+          setTimeout(() => {
+            switchPanel('panel-history');
+          }, 400);
+        } else {
+          alert('Gagal memproses file. Pastikan format valid.');
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // Helper date formatters
   function formatDate(isoString) {
     const date = new Date(isoString);
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
@@ -352,5 +450,5 @@ document.addEventListener('DOMContentLoaded', () => {
     return date.toLocaleDateString('id-ID', options);
   }
 
-  console.log("Moody Issue #5: Entry Detail Modal initialized.");
+  console.log("Moody Issue #6: Streaks, Tags stats & Backup Utilities initialized.");
 });

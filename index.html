@@ -145,9 +145,48 @@
       <section id="panel-analytics" class="panel-section">
         <div class="journal-paper">
           <div class="washi-tape washi-blue washi-top-left"></div>
+          
           <h2 class="handwritten-title">Papan Analisis 📊</h2>
-          <div class="placeholder-content" style="text-align: center; padding: 40px; color: #64748b; font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
-            Dashboard Statistik dan Grafik SVG akan dibuat pada Issue #6 & #7.
+
+          <div class="analytics-grid">
+            <!-- Row 1: Streak & Tag stats -->
+            <div class="sticky-note blue-note rotate-left streak-card">
+              <span class="scrapbook-sticker pin-sticker">📌</span>
+              <h3 class="stats-card-title">Streak Menulis</h3>
+              <div class="streak-value">
+                <span id="stats-streak-num">0</span> <span class="streak-days">Hari</span>
+              </div>
+              <p class="stats-card-desc" id="stats-streak-desc">Ayo buat entri hari ini untuk mulai mencatat!</p>
+            </div>
+
+            <div class="sticky-note pink-note rotate-right tags-card">
+              <span class="scrapbook-sticker heart-sticker">💖</span>
+              <h3 class="stats-card-title">Top Tags</h3>
+              <div id="stats-tags-container" class="stats-bar-list">
+                <!-- Tag bars rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- SVG Trend Line (Issue 7 Placeholder) -->
+            <div class="sticky-note green-note trend-card" style="display: none;">
+              <h3 class="stats-card-title">Tren Suasana Hati</h3>
+            </div>
+
+            <!-- Row 3: Backup Data -->
+            <div class="sticky-note white-note backup-card">
+              <span class="scrapbook-sticker tape-sticker">🩹</span>
+              <h3 class="stats-card-title">Cadangkan & Impor Data</h3>
+              <p class="backup-desc">Simpan semua catatan jurnal Anda secara aman dengan mengekspornya ke berkas lokal.</p>
+              <div class="backup-actions">
+                <button id="btn-export" class="sticker-btn">Ekspor Jurnal (.JSON) 📥</button>
+                
+                <label for="import-file" class="sticker-btn file-input-label">
+                  Impor Jurnal 📤
+                  <input type="file" id="import-file" accept=".json" style="display: none;">
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

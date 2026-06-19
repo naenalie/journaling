@@ -790,6 +790,167 @@ body {
 }
 
 /* ==========================================
+   DASHBOARD ANALYTICS WIDGETS
+   ========================================== */
+.analytics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.streak-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.stats-card-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.streak-value {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent-coral);
+  line-height: 1;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 0px var(--color-navy);
+}
+
+.streak-days {
+  font-size: 1.2rem;
+  color: var(--color-navy);
+}
+
+.stats-card-desc {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  max-width: 250px;
+}
+
+.stats-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.stats-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stats-bar-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.stats-bar-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.05rem;
+}
+
+.stats-bar-outer {
+  background: rgba(27, 38, 59, 0.05);
+  border: 1.5px solid var(--color-navy);
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stats-bar-inner {
+  height: 100%;
+  background-color: var(--accent-yellow);
+  border-right: 1.5px solid var(--color-navy);
+  border-radius: 6px 0 0 6px;
+  transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stats-bar-item:nth-child(even) .stats-bar-inner {
+  background-color: var(--accent-coral);
+}
+
+.backup-card {
+  text-align: center;
+}
+
+.backup-desc {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+}
+
+.backup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sticker-btn {
+  background-color: var(--color-paper);
+  border: 2px solid var(--color-navy);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  cursor: pointer;
+  box-shadow: var(--shadow-handdrawn);
+  transition: var(--transition-spring);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticker-btn:hover {
+  transform: translateY(-2px) rotate(1deg);
+  box-shadow: 4px 4px 0px rgba(27,38,59,0.15);
+}
+
+.sticker-btn:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px rgba(27,38,59,0.15);
+}
+
+.file-input-label {
+  cursor: pointer;
+}
+
+.pink-note   { background-color: #fff0f6; }
+.blue-note   { background-color: #e7f5ff; }
+.green-note  { background-color: #ebfbee; }
+.white-note  { background-color: #ffffff; }
+
+.rotate-left  { transform: rotate(-1.5deg); }
+.rotate-right { transform: rotate(1.5deg); }
+
+.scrapbook-sticker {
+  position: absolute;
+  font-size: 1.8rem;
+  filter: drop-shadow(2px 4px 10px rgba(27, 38, 59, 0.1));
+  pointer-events: none;
+}
+
+.pin-sticker { top: -14px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; }
+.heart-sticker { top: -15px; right: 15px; transform: rotate(12deg); }
+.flower-sticker { top: -14px; left: 15px; }
+.star-sticker { top: -15px; right: 10px; }
+.tape-sticker { top: -12px; left: 50%; transform: translateX(-50%) rotate(3deg); font-size: 1.3rem; }
+
+/* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
 @media (max-width: 600px) {
