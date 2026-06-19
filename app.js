@@ -33,5 +33,98 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  console.log("Moody Issue #1: SPA Shell & Tabs initialized.");
+  // ==========================================
+  // STATE MANAGEMENT
+  // ==========================================
+  let activeMood = 'neutral';
+  let editorTags = [];
+
+  // ==========================================
+  // DOM ELEMENT REFERENCES
+  // ==========================================
+  const moodStickerBtns = document.querySelectorAll('.mood-sticker-btn');
+  const tagInput = document.getElementById('tag-input');
+  const btnAddTag = document.getElementById('btn-add-tag');
+  const editorTagList = document.getElementById('editor-tag-list');
+  const btnSaveJournal = document.getElementById('btn-save-journal');
+  const contentInput = document.getElementById('journal-content');
+  const titleInput = document.getElementById('journal-title');
+
+  // ==========================================
+  // MOOD SELECTOR WIDGET
+  // ==========================================
+  moodStickerBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      moodStickerBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeMood = btn.getAttribute('data-mood');
+    });
+  });
+
+  // ==========================================
+  // TAG PILLS MANAGER
+  // ==========================================
+  function addEditorTag() {
+    const rawValue = tagInput.value.trim().toLowerCase();
+    if (rawValue) {
+      const newTags = rawValue.split(/[\s,]+/).filter(Boolean);
+      newTags.forEach(tag => {
+        if (!editorTags.includes(tag) && editorTags.length < 8) {
+          editorTags.push(tag);
+        }
+      });
+      tagInput.value = '';
+      renderEditorTags();
+    }
+  }
+
+  function renderEditorTags() {
+    editorTagList.innerHTML = '';
+    editorTags.forEach((tag, idx) => {
+      const pill = document.createElement('span');
+      pill.className = 'tag-pill';
+      pill.innerHTML = `#${tag} <button type="button" class="btn-remove-tag" data-index="${idx}">&times;</button>`;
+      editorTagList.appendChild(pill);
+    });
+
+    // Attach deletion listener on remove buttons
+    editorTagList.querySelectorAll('.btn-remove-tag').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const index = parseInt(btn.getAttribute('data-index'));
+        editorTags.splice(index, 1);
+        renderEditorTags();
+      });
+    });
+  }
+
+  tagInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addEditorTag();
+    }
+  });
+
+  btnAddTag.addEventListener('click', (e) => {
+    e.preventDefault();
+    addEditorTag();
+  });
+
+  // ==========================================
+  // FORM VALIDATION (MOCK SAVE)
+  // ==========================================
+  btnSaveJournal.addEventListener('click', (e) => {
+    e.preventDefault();
+    const content = contentInput.value.trim();
+    if (!content) {
+      alert('Isi catatan tidak boleh kosong! ⚠️');
+      contentInput.focus();
+      return;
+    }
+
+    // Mock save logic for Issue 2
+    alert(`[MOCK SAVE] Menolak simpan karena Issue #3 belum dipasang. Judul: "${titleInput.value.trim()}", Mood: ${activeMood}, Tags: ${editorTags.join(', ')}`);
+  });
+
+  console.log("Moody Issue #2: Editor & Mood Selector initialized.");
 });

@@ -45,10 +45,67 @@
       <section id="panel-editor" class="panel-section active">
         <div class="journal-paper">
           <div class="washi-tape washi-pink washi-top-left"></div>
+          
           <h2 class="handwritten-title">Catatan Hari Ini ✨</h2>
-          <div class="placeholder-content" style="text-align: center; padding: 40px; color: #64748b; font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
-            Formulir Jurnal Baru akan dibuat pada Issue #2.
-          </div>
+          
+          <form id="journal-form" class="editor-form" onsubmit="return false;">
+            <!-- Title Input -->
+            <div class="form-group">
+              <label for="journal-title" class="handwritten-label">Judul (Opsional):</label>
+              <input type="text" id="journal-title" class="scrapbook-input" placeholder="Tulis judul hari ini...">
+            </div>
+
+            <!-- Mood Picker -->
+            <div class="form-group">
+              <label class="handwritten-label">Bagaimana perasaanmu?</label>
+              <div class="mood-selector">
+                <button type="button" class="mood-sticker-btn" data-mood="awesome" title="Luar Biasa">
+                  <span class="mood-emoji">🥰</span>
+                  <span class="mood-text">Awesome</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="good" title="Baik">
+                  <span class="mood-emoji">🙂</span>
+                  <span class="mood-text">Good</span>
+                </button>
+                <button type="button" class="mood-sticker-btn active" data-mood="neutral" title="Biasa Saja">
+                  <span class="mood-emoji">😐</span>
+                  <span class="mood-text">Neutral</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="bad" title="Buruk">
+                  <span class="mood-emoji">🙁</span>
+                  <span class="mood-text">Bad</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="awful" title="Sangat Buruk">
+                  <span class="mood-emoji">😭</span>
+                  <span class="mood-text">Awful</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Content Body Editor -->
+            <div class="form-group flex-fill">
+              <label for="journal-content" class="handwritten-label">Tulis Catatanmu:</label>
+              <textarea id="journal-content" class="scrapbook-textarea" placeholder="Tumpahkan perasaanmu di sini..."></textarea>
+            </div>
+
+            <!-- Tag Input -->
+            <div class="form-group">
+              <label for="tag-input" class="handwritten-label">Tambah Tag:</label>
+              <div class="tag-input-container">
+                <input type="text" id="tag-input" class="scrapbook-input" placeholder="Ketik tag lalu tekan Enter atau klik +">
+                <button type="button" id="btn-add-tag" class="sticker-btn-small">+</button>
+              </div>
+              <!-- Added Tag List -->
+              <div id="editor-tag-list" class="tag-pills-container">
+                <!-- Tag pills rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="form-actions">
+              <button type="submit" id="btn-save-journal" class="sticker-submit-btn">Simpan Jurnal 💾</button>
+            </div>
+          </form>
         </div>
       </section>
 

@@ -220,6 +220,236 @@ body {
 }
 
 /* ==========================================
+   EDITOR FORM STYLING
+   ========================================== */
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.flex-fill {
+  flex: 1;
+  display: flex;
+}
+
+.handwritten-label {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--color-navy);
+}
+
+.scrapbook-input, .scrapbook-textarea {
+  border: 2px solid var(--color-navy);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  background-color: #faf9f6;
+  color: var(--color-navy);
+  outline: none;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.scrapbook-textarea {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 180px;
+  background-image: linear-gradient(rgba(27,38,59,0.06) 1px, transparent 1px);
+  background-size: 100% 32px;
+  padding-top: 6px;
+  line-height: 32px;
+  flex: 1;
+}
+
+.scrapbook-input:focus, .scrapbook-textarea:focus {
+  border-color: var(--accent-coral);
+  background-color: var(--color-paper);
+}
+
+.tag-input-container {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-input-container .scrapbook-input {
+  flex: 1;
+}
+
+.sticker-btn-small {
+  background-color: var(--accent-yellow);
+  color: var(--color-navy);
+  border: 2px solid var(--color-navy);
+  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-handdrawn);
+  transition: var(--transition-spring);
+}
+
+.sticker-btn-small:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+.sticker-btn-small:active {
+  transform: scale(0.95);
+  box-shadow: 1px 1px 0px rgba(27,38,59,0.15);
+}
+
+.sticker-submit-btn {
+  background-color: var(--accent-coral);
+  color: #ffffff;
+  border: 2.5px solid var(--color-navy);
+  border-radius: 16px;
+  padding: 14px 28px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-handdrawn);
+  transition: var(--transition-spring);
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.sticker-submit-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 5px 5px 0px rgba(27, 38, 59, 0.2);
+}
+
+.sticker-submit-btn:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0px rgba(27, 38, 59, 0.2);
+}
+
+/* ==========================================
+   MOOD SELECTOR WIDGET
+   ========================================== */
+.mood-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.mood-sticker-btn {
+  background: var(--color-paper);
+  border: 2px solid var(--color-navy);
+  border-radius: 14px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition-spring);
+  flex: 1;
+  min-width: 80px;
+}
+
+.mood-emoji {
+  font-size: 2rem;
+  filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.1));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mood-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  font-family: 'Fredoka', sans-serif;
+}
+
+.mood-sticker-btn.active {
+  transform: translateY(-4px) scale(1.06) rotate(-2deg);
+  box-shadow: var(--shadow-handdrawn);
+}
+
+.mood-sticker-btn.active .mood-emoji {
+  transform: scale(1.2);
+}
+
+/* Specific Mood Colors */
+.mood-sticker-btn[data-mood="awesome"].active { background-color: #ebdffd; border-color: #9c27b0; }
+.mood-sticker-btn[data-mood="good"].active    { background-color: #e1fbf2; border-color: #2ec4b6; }
+.mood-sticker-btn[data-mood="neutral"].active { background-color: #f1f3f7; border-color: var(--color-navy); }
+.mood-sticker-btn[data-mood="bad"].active     { background-color: #e2f0fe; border-color: #00b4d8; }
+.mood-sticker-btn[data-mood="awful"].active   { background-color: #ffe8ec; border-color: var(--accent-coral); }
+
+.mood-sticker-btn[data-mood="awesome"].active .mood-text { color: #9c27b0; }
+.mood-sticker-btn[data-mood="good"].active .mood-text    { color: #0f9d58; }
+.mood-sticker-btn[data-mood="neutral"].active .mood-text { color: var(--color-navy); }
+.mood-sticker-btn[data-mood="bad"].active .mood-text     { color: #00b4d8; }
+.mood-sticker-btn[data-mood="awful"].active .mood-text   { color: var(--accent-coral); }
+
+.mood-sticker-btn:hover:not(.active) {
+  transform: translateY(-2px);
+  border-color: var(--accent-yellow);
+}
+
+/* ==========================================
+   TAG PILLS STYLING
+   ========================================== */
+.tag-pills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tag-pill {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
+  background-color: var(--color-canvas);
+  color: var(--color-navy);
+  border: 1.5px solid var(--color-navy);
+  border-radius: 8px;
+  padding: 2px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 1px 1px 0px rgba(27,38,59,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tag-pill:hover {
+  transform: scale(1.05) rotate(1.5deg);
+  border-color: var(--accent-coral);
+}
+
+.btn-remove-tag {
+  background: transparent;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--accent-coral);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
 @media (max-width: 600px) {
@@ -238,5 +468,18 @@ body {
   .tab-divider {
     padding: 8px 12px;
     font-size: 0.8rem;
+  }
+  
+  .mood-sticker-btn {
+    min-width: 60px;
+    padding: 8px 4px;
+  }
+  
+  .mood-emoji {
+    font-size: 1.5rem;
+  }
+  
+  .mood-text {
+    font-size: 0.65rem;
   }
 }
