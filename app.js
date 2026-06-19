@@ -82,6 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const statsStreakNum = document.getElementById('stats-streak-num');
   const statsStreakDesc = document.getElementById('stats-streak-desc');
   const statsTagsContainer = document.getElementById('stats-tags-container');
+  const moodTrendSvg = document.getElementById('mood-trend-svg');
+  const chartPlaceholder = document.getElementById('chart-placeholder');
+  const contributionCalendar = document.getElementById('contribution-calendar');
   const btnExport = document.getElementById('btn-export');
   const importFile = document.getElementById('import-file');
 
@@ -391,6 +394,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     }
+
+    // 3. Render SVG Chart & Calendar
+    renderSvgChart(entries);
+    renderCalendarGrid(entries);
   }
 
   // ==========================================
@@ -437,6 +444,108 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ==========================================
+  // SVG LINE CHART & CALENDAR GRID
+  // ==========================================
+  function renderSvgChart(entries) {
+    if (!moodTrendSvg) return;
+    moodTrendSvg.innerHTML = '';
+    
+    if (!entries || entries.length < 2) {
+      if (chartPlaceholder) chartPlaceholder.style.display = 'flex';
+      moodTrendSvg.style.display = 'none';
+      return;
+    }
+
+    if (chartPlaceholder) chartPlaceholder.style.display = 'none';
+    moodTrendSvg.style.display = 'block';
+
+    const width = 500;
+    const height = 200;
+    const trendData = JournalStats.generateMoodTrendPath(entries, width, height);
+    if (!trendData) return;
+
+    const { points, pathD } = trendData;
+
+    // Draw Y grid lines
+    const moodLevels = [
+      { y: 30, text: '🥰' },
+      { y: 67.5, text: '🙂' },
+      { y: 105, text: '😐' },
+      { y: 142.5, text: '🙁' },
+      { y: 180, text: '😭' }
+    ];
+
+    moodLevels.forEach(level => {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('class', 'svg-grid-line');
+      line.setAttribute('x1', '40');
+      line.setAttribute('y1', level.y);
+      line.setAttribute('x2', '460');
+      line.setAttribute('y2', level.y);
+      moodTrendSvg.appendChild(line);
+
+      const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      txt.setAttribute('class', 'svg-axis-text');
+      txt.setAttribute('x', '35');
+      txt.setAttribute('y', level.y + 4);
+      txt.setAttribute('text-anchor', 'end');
+      txt.textContent = level.text;
+      moodTrendSvg.appendChild(txt);
+    });
+
+    // Draw path
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('class', 'svg-trend-line');
+    path.setAttribute('d', pathD);
+    moodTrendSvg.appendChild(path);
+
+    // Draw points dots
+    const moodColors = {
+      awesome: '#9c27b0',
+      good: '#2ec4b6',
+      neutral: 'var(--color-navy)',
+      bad: '#00b4d8',
+      awful: 'var(--accent-coral)'
+    };
+
+    points.forEach(pt => {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('class', 'svg-trend-dot');
+      circle.setAttribute('cx', pt.x);
+      circle.setAttribute('cy', pt.y);
+      circle.setAttribute('fill', pt.mood === 'awesome' ? '#ebdffd' : 
+                                 pt.mood === 'good' ? '#e1fbf2' :
+                                 pt.mood === 'neutral' ? '#f1f3f7' :
+                                 pt.mood === 'bad' ? '#e2f0fe' : '#ffe8ec');
+      circle.setAttribute('stroke', moodColors[pt.mood]);
+      
+      const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+      title.textContent = `${pt.mood.toUpperCase()} - ${formatDateShort(pt.date)}`;
+      circle.appendChild(title);
+
+      moodTrendSvg.appendChild(circle);
+    });
+  }
+
+  function renderCalendarGrid(entries) {
+    if (!contributionCalendar) return;
+    contributionCalendar.innerHTML = '';
+    
+    const last30Days = JournalStats.getMonthlyContributionMap(entries);
+    last30Days.forEach(day => {
+      const box = document.createElement('div');
+      box.className = 'calendar-day-box';
+      if (day.mood) {
+        box.setAttribute('data-mood', day.mood);
+      }
+      
+      const d = new Date(day.date);
+      box.title = `${formatDateShort(d)} : ${day.mood ? day.mood.toUpperCase() : 'Tidak ada catatan'}`;
+      contributionCalendar.appendChild(box);
+    });
+  }
+
   // Helper date formatters
   function formatDate(isoString) {
     const date = new Date(isoString);
@@ -450,5 +559,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return date.toLocaleDateString('id-ID', options);
   }
 
-  console.log("Moody Issue #6: Streaks, Tags stats & Backup Utilities initialized.");
+  function formatDateShort(dateObj) {
+    const options = { day: 'numeric', month: 'short' };
+    return dateObj.toLocaleDateString('id-ID', options);
+  }
+
+  console.log("Moody Issue #7: SVG Mood Trend Line & Contribution Calendar initialized.");
 });

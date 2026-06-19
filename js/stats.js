@@ -93,7 +93,6 @@ export const JournalStats = {
     trendEntries.forEach((entry, i) => {
       const val = moodValues[entry.mood] || 3;
       const x = paddingX + i * stepX;
-      // Nilai 5 (awesome) ada di atas (y kecil), Nilai 1 (awful) ada di bawah (y besar)
       const y = paddingY + chartHeight - ((val - 1) / 4) * chartHeight;
       points.push({ x, y, mood: entry.mood, date: new Date(entry.date) });
     });

@@ -167,9 +167,34 @@
               </div>
             </div>
 
-            <!-- SVG Trend Line (Issue 7 Placeholder) -->
-            <div class="sticky-note green-note trend-card" style="display: none;">
-              <h3 class="stats-card-title">Tren Suasana Hati</h3>
+            <!-- Row 2: SVG Line Chart -->
+            <div class="sticky-note green-note trend-card">
+              <span class="scrapbook-sticker flower-sticker">🌸</span>
+              <h3 class="stats-card-title">Tren Suasana Hati (Maks 10 Entri)</h3>
+              <div class="chart-wrapper">
+                <svg id="mood-trend-svg" width="100%" height="200" viewBox="0 0 500 200" preserveAspectRatio="xMidYMid meet">
+                  <!-- Generated dynamically in JS -->
+                </svg>
+                <div id="chart-placeholder" class="chart-empty">
+                  <span>Butuh minimal 2 entri jurnal untuk menggambar grafik tren.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Monthly Contribution Calendar -->
+            <div class="sticky-note yellow-note calendar-card">
+              <span class="scrapbook-sticker star-sticker">⭐️</span>
+              <h3 class="stats-card-title">Pixel Mood 30 Hari Terakhir</h3>
+              <div id="contribution-calendar" class="calendar-grid">
+                <!-- Calendar grid squares generated dynamically -->
+              </div>
+              <div class="calendar-legend">
+                <span>🥰 Awesome</span>
+                <span>🙂 Good</span>
+                <span>😐 Neutral</span>
+                <span>🙁 Bad</span>
+                <span>😭 Awful</span>
+              </div>
             </div>
 
             <!-- Row 3: Backup Data -->
