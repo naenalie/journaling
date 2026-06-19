@@ -155,6 +155,33 @@
     </main>
   </div>
 
+  <!-- Detail Modal Overlay -->
+  <div id="detail-modal" class="modal-overlay">
+    <div class="modal-card polaroid-frame">
+      <div class="washi-tape washi-pink washi-modal-tape"></div>
+      
+      <button class="modal-close-btn" id="btn-close-modal">×</button>
+      
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title-text">Judul Jurnal</h3>
+        <div class="modal-meta-row">
+          <span id="modal-date" class="modal-date-text">12 Juni 2026</span>
+          <span id="modal-mood-badge" class="mood-pill">🥰 Awesome</span>
+        </div>
+      </div>
+      
+      <div class="modal-body-scroll">
+        <p id="modal-content" class="modal-body-text">Isi catatan harian lengkap.</p>
+      </div>
+
+      <div class="modal-footer">
+        <div id="modal-tag-list" class="tag-pills-container">
+          <!-- Tag pills rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="app.js"></script>
 </body>
 </html>

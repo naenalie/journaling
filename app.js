@@ -66,6 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const contentInput = document.getElementById('journal-content');
   const titleInput = document.getElementById('journal-title');
 
+  // Modal References
+  const detailModal = document.getElementById('detail-modal');
+  const btnCloseModal = document.getElementById('btn-close-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDate = document.getElementById('modal-date');
+  const modalMoodBadge = document.getElementById('modal-mood-badge');
+  const modalContent = document.getElementById('modal-content');
+  const modalTagList = document.getElementById('modal-tag-list');
+
   // ==========================================
   // MOOD SELECTOR WIDGET
   // ==========================================
@@ -227,6 +236,17 @@ document.addEventListener('DOMContentLoaded', () => {
       entriesContainer.appendChild(card);
     });
 
+    // Event click pada kartu polaroid untuk membuka modal detail
+    entriesContainer.querySelectorAll('.polaroid-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-delete-card') || e.target.classList.contains('click-tag')) {
+          return;
+        }
+        const id = card.getAttribute('data-id');
+        openDetailModal(id);
+      });
+    });
+
     // Event click pada tag pill kartu riwayat untuk pencarian instan
     entriesContainer.querySelectorAll('.click-tag').forEach(tagEl => {
       tagEl.addEventListener('click', (e) => {
@@ -269,6 +289,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ==========================================
+  // DETAIL MODAL FUNCTIONS & LISTENERS
+  // ==========================================
+  function openDetailModal(id) {
+    const entries = JournalStorage.getAllEntries();
+    const entry = entries.find(item => item.id === id);
+    if (!entry) return;
+
+    const emojiMap = { awesome: '🥰 Awesome', good: '🙂 Good', neutral: '😐 Neutral', bad: '🙁 Bad', awful: '😭 Awful' };
+
+    modalTitle.textContent = entry.title || 'Tanpa Judul';
+    modalDate.textContent = formatDateFull(entry.date);
+    modalMoodBadge.textContent = emojiMap[entry.mood];
+    modalMoodBadge.setAttribute('data-mood', entry.mood);
+    modalMoodBadge.style.backgroundColor = `var(--bg-${entry.mood})`;
+
+    modalContent.textContent = entry.content;
+
+    // Render tag list di modal
+    modalTagList.innerHTML = '';
+    if (entry.tags && entry.tags.length > 0) {
+      entry.tags.forEach(t => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill';
+        pill.textContent = `#${t}`;
+        modalTagList.appendChild(pill);
+      });
+    }
+
+    detailModal.classList.add('active');
+  }
+
+  function closeModal() {
+    detailModal.classList.remove('active');
+  }
+
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (detailModal) {
+    detailModal.addEventListener('click', (e) => {
+      if (e.target === detailModal) closeModal();
+    });
+  }
+
+  // Tutup modal menggunakan Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && detailModal && detailModal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
   // Helper date formatter
   function formatDate(isoString) {
     const date = new Date(isoString);
@@ -276,5 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return date.toLocaleDateString('id-ID', options);
   }
 
-  console.log("Moody Issue #4: History Search & Filtering initialized.");
+  function formatDateFull(isoString) {
+    const date = new Date(isoString);
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return date.toLocaleDateString('id-ID', options);
+  }
+
+  console.log("Moody Issue #5: Entry Detail Modal initialized.");
 });
