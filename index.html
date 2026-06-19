@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moody — Jurnal Suasana Hati Kawaii</title>
+  <!-- Google Fonts: Fredoka (Headings), Patrick Hand (Handwritten Notes), Outfit (Interface UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dotted Canvas Grid -->
+  <div class="scrapbook-canvas">
+    
+    <!-- Top Ribbon Header -->
+    <header class="scrapbook-header">
+      <div class="header-logo">
+        <h1 class="marker-title">Moody 🧸</h1>
+      </div>
+      <div class="header-tagline">
+        <span class="washi-tape-accent">Jurnal Harian Saya</span>
+      </div>
+    </header>
+
+    <!-- Folder Nav Tabs (Folder Dividers style) -->
+    <nav class="folder-tabs">
+      <button class="tab-divider active" data-target="panel-editor" id="tab-nav-editor">
+        <span class="tab-label">✍️ Tulis Jurnal</span>
+      </button>
+      <button class="tab-divider" data-target="panel-history" id="tab-nav-history">
+        <span class="tab-label">📖 Buku Harian</span>
+      </button>
+      <button class="tab-divider" data-target="panel-analytics" id="tab-nav-analytics">
+        <span class="tab-label">📊 Tren & Statistik</span>
+      </button>
+    </nav>
+
+    <!-- Main Scrapbook Page Board -->
+    <main class="scrapbook-board">
+      
+      <!-- Panel 1: Jurnal Baru (Editor) -->
+      <section id="panel-editor" class="panel-section active">
+        <div class="journal-paper">
+          <div class="washi-tape washi-pink washi-top-left"></div>
+          <h2 class="handwritten-title">Catatan Hari Ini ✨</h2>
+          <div class="placeholder-content" style="text-align: center; padding: 40px; color: #64748b; font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
+            Formulir Jurnal Baru akan dibuat pada Issue #2.
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: Riwayat Jurnal (History) -->
+      <section id="panel-history" class="panel-section">
+        <div class="journal-paper">
+          <div class="washi-tape washi-yellow washi-top-right"></div>
+          <h2 class="handwritten-title">Kenangan Masa Lalu 📖</h2>
+          <div class="placeholder-content" style="text-align: center; padding: 40px; color: #64748b; font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
+            Riwayat Catatan dan Pencarian akan dibuat pada Issue #3 & #4.
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Analisis Mood (Analytics) -->
+      <section id="panel-analytics" class="panel-section">
+        <div class="journal-paper">
+          <div class="washi-tape washi-blue washi-top-left"></div>
+          <h2 class="handwritten-title">Papan Analisis 📊</h2>
+          <div class="placeholder-content" style="text-align: center; padding: 40px; color: #64748b; font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
+            Dashboard Statistik dan Grafik SVG akan dibuat pada Issue #6 & #7.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

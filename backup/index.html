@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moody — Jurnal Suasana Hati Kawaii</title>
+  <!-- Google Fonts: Fredoka (Headings), Patrick Hand (Handwritten Notes), Outfit (Interface UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dotted Canvas Grid -->
+  <div class="scrapbook-canvas">
+    
+    <!-- Top Ribbon Header -->
+    <header class="scrapbook-header">
+      <div class="header-logo">
+        <h1 class="marker-title">Moody 🧸</h1>
+      </div>
+      <div class="header-tagline">
+        <span class="washi-tape-accent">Jurnal Harian Saya</span>
+      </div>
+    </header>
+
+    <!-- Folder Nav Tabs (Physical Dividers style) -->
+    <nav class="folder-tabs">
+      <button class="tab-divider active" data-target="panel-editor" id="tab-nav-editor">
+        <span class="tab-label">✍️ Tulis Jurnal</span>
+      </button>
+      <button class="tab-divider" data-target="panel-history" id="tab-nav-history">
+        <span class="tab-label">📖 Buku Harian</span>
+      </button>
+      <button class="tab-divider" data-target="panel-analytics" id="tab-nav-analytics">
+        <span class="tab-label">📊 Tren & Statistik</span>
+      </button>
+    </nav>
+
+    <!-- Main Scrapbook Page Board -->
+    <main class="scrapbook-board">
+      
+      <!-- Panel 1: Jurnal Baru (Editor) -->
+      <section id="panel-editor" class="panel-section active">
+        <div class="journal-paper">
+          <div class="washi-tape washi-pink washi-top-left"></div>
+          
+          <h2 class="handwritten-title">Catatan Hari Ini ✨</h2>
+          
+          <form id="journal-form" class="editor-form" onsubmit="return false;">
+            <!-- Title Input -->
+            <div class="form-group">
+              <label for="journal-title" class="handwritten-label">Judul (Opsional):</label>
+              <input type="text" id="journal-title" class="scrapbook-input" placeholder="Tulis judul hari ini...">
+            </div>
+
+            <!-- Mood Picker -->
+            <div class="form-group">
+              <label class="handwritten-label">Bagaimana perasaanmu?</label>
+              <div class="mood-selector">
+                <button type="button" class="mood-sticker-btn" data-mood="awesome" title="Luar Biasa">
+                  <span class="mood-emoji">🥰</span>
+                  <span class="mood-text">Awesome</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="good" title="Baik">
+                  <span class="mood-emoji">🙂</span>
+                  <span class="mood-text">Good</span>
+                </button>
+                <button type="button" class="mood-sticker-btn active" data-mood="neutral" title="Biasa Saja">
+                  <span class="mood-emoji">😐</span>
+                  <span class="mood-text">Neutral</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="bad" title="Buruk">
+                  <span class="mood-emoji">🙁</span>
+                  <span class="mood-text">Bad</span>
+                </button>
+                <button type="button" class="mood-sticker-btn" data-mood="awful" title="Sangat Buruk">
+                  <span class="mood-emoji">😭</span>
+                  <span class="mood-text">Awful</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Content Body Editor -->
+            <div class="form-group flex-fill">
+              <label for="journal-content" class="handwritten-label">Tulis Catatanmu:</label>
+              <textarea id="journal-content" class="scrapbook-textarea" placeholder="Tumpahkan perasaanmu di sini..."></textarea>
+            </div>
+
+            <!-- Tag Input -->
+            <div class="form-group">
+              <label for="tag-input" class="handwritten-label">Tambah Tag:</label>
+              <div class="tag-input-container">
+                <input type="text" id="tag-input" class="scrapbook-input" placeholder="Ketik tag lalu tekan Enter atau klik +">
+                <button type="button" id="btn-add-tag" class="sticker-btn-small">+</button>
+              </div>
+              <!-- Added Tag List -->
+              <div id="editor-tag-list" class="tag-pills-container">
+                <!-- Tag pills rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="form-actions">
+              <button type="submit" id="btn-save-journal" class="sticker-submit-btn">Simpan Jurnal 💾</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Panel 2: Riwayat Jurnal (History) -->
+      <section id="panel-history" class="panel-section">
+        <div class="journal-paper">
+          <div class="washi-tape washi-yellow washi-top-right"></div>
+          
+          <h2 class="handwritten-title">Kenangan Masa Lalu 📖</h2>
+          
+          <!-- Search & Filter Controls -->
+          <div class="search-filter-section sticky-note yellow-note">
+            <div class="form-group">
+              <input type="text" id="search-input" class="scrapbook-input" placeholder="🔍 Cari kata kunci atau tag...">
+            </div>
+            
+            <div class="mood-filter-container">
+              <span class="filter-label">Filter Mood:</span>
+              <div class="mood-filters">
+                <button class="mood-filter-btn" data-filter="all">Semua</button>
+                <button class="mood-filter-btn" data-filter="awesome">🥰</button>
+                <button class="mood-filter-btn" data-filter="good">🙂</button>
+                <button class="mood-filter-btn" data-filter="neutral">😐</button>
+                <button class="mood-filter-btn" data-filter="bad">🙁</button>
+                <button class="mood-filter-btn" data-filter="awful">😭</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entries Container -->
+          <div id="journal-entries-container" class="entries-masonry">
+            <!-- Entries rendered as cute polaroid cards dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Analisis Mood (Analytics) -->
+      <section id="panel-analytics" class="panel-section">
+        <div class="journal-paper">
+          <div class="washi-tape washi-blue washi-top-left"></div>
+          
+          <h2 class="handwritten-title">Papan Analisis 📊</h2>
+
+          <div class="analytics-grid">
+            <!-- Row 1: Streak & Tag stats -->
+            <div class="sticky-note blue-note rotate-left streak-card">
+              <span class="scrapbook-sticker pin-sticker">📌</span>
+              <h3 class="stats-card-title">Streak Menulis</h3>
+              <div class="streak-value">
+                <span id="stats-streak-num">0</span> <span class="streak-days">Hari</span>
+              </div>
+              <p class="stats-card-desc" id="stats-streak-desc">Ayo buat entri hari ini untuk mulai mencatat!</p>
+            </div>
+
+            <div class="sticky-note pink-note rotate-right tags-card">
+              <span class="scrapbook-sticker heart-sticker">💖</span>
+              <h3 class="stats-card-title">Top Tags</h3>
+              <div id="stats-tags-container" class="stats-bar-list">
+                <!-- Tag bars rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Row 2: SVG Line Chart -->
+            <div class="sticky-note green-note trend-card">
+              <span class="scrapbook-sticker flower-sticker">🌸</span>
+              <h3 class="stats-card-title">Tren Suasana Hati (Maks 10 Entri)</h3>
+              <div class="chart-wrapper">
+                <svg id="mood-trend-svg" width="100%" height="200" viewBox="0 0 500 200" preserveAspectRatio="xMidYMid meet">
+                  <!-- Generated dynamically in JS -->
+                </svg>
+                <div id="chart-placeholder" class="chart-empty">
+                  <span>Butuh minimal 2 entri jurnal untuk menggambar grafik tren.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Monthly Contribution Calendar -->
+            <div class="sticky-note yellow-note calendar-card">
+              <span class="scrapbook-sticker star-sticker">⭐️</span>
+              <h3 class="stats-card-title">Pixel Mood 30 Hari Terakhir</h3>
+              <div id="contribution-calendar" class="calendar-grid">
+                <!-- Calendar grid squares generated dynamically -->
+              </div>
+              <div class="calendar-legend">
+                <span>🥰 Awesome</span>
+                <span>🙂 Good</span>
+                <span>😐 Neutral</span>
+                <span>🙁 Bad</span>
+                <span>😭 Awful</span>
+              </div>
+            </div>
+
+            <!-- Row 4: Backup Data -->
+            <div class="sticky-note white-note backup-card">
+              <span class="scrapbook-sticker tape-sticker">🩹</span>
+              <h3 class="stats-card-title">Cadangkan & Impor Data</h3>
+              <p class="backup-desc">Simpan semua catatan jurnal Anda secara aman dengan mengekspornya ke berkas lokal.</p>
+              <div class="backup-actions">
+                <button id="btn-export" class="sticker-btn">Ekspor Jurnal (.JSON) 📥</button>
+                
+                <label for="import-file" class="sticker-btn file-input-label">
+                  Impor Jurnal 📤
+                  <input type="file" id="import-file" accept=".json" style="display: none;">
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Detail Modal Overlay -->
+  <div id="detail-modal" class="modal-overlay">
+    <div class="modal-card polaroid-frame">
+      <div class="washi-tape washi-pink washi-modal-tape"></div>
+      
+      <button class="modal-close-btn" id="btn-close-modal">×</button>
+      
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title-text">Judul Jurnal</h3>
+        <div class="modal-meta-row">
+          <span id="modal-date" class="modal-date-text">12 Juni 2026</span>
+          <span id="modal-mood-badge" class="mood-pill">🥰 Awesome</span>
+        </div>
+      </div>
+      
+      <div class="modal-body-scroll">
+        <p id="modal-content" class="modal-body-text">Isi catatan harian lengkap.</p>
+      </div>
+
+      <div class="modal-footer">
+        <div id="modal-tag-list" class="tag-pills-container">
+          <!-- Tag pills rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Notification Sticker -->
+  <div id="toast-sticker" class="toast-sticker hidden">
+    <span class="toast-icon">✨</span>
+    <span id="toast-message" class="toast-text">Tersimpan!</span>
+  </div>
+
+  <!-- JavaScript entry point -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
