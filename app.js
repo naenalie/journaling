@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   let activeMood = 'neutral';
   let editorTags = [];
+  let currentFilterMood = 'all';
+  let currentSearchQuery = '';
 
   // ==========================================
   // DOM ELEMENT REFERENCES
@@ -58,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const tagInput = document.getElementById('tag-input');
   const btnAddTag = document.getElementById('btn-add-tag');
   const editorTagList = document.getElementById('editor-tag-list');
+  const searchInput = document.getElementById('search-input');
+  const moodFilterBtns = document.querySelectorAll('.mood-filter-btn');
   const btnSaveJournal = document.getElementById('btn-save-journal');
   const contentInput = document.getElementById('journal-content');
   const titleInput = document.getElementById('journal-title');
@@ -176,12 +180,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const entries = JournalStorage.getAllEntries();
     entriesContainer.innerHTML = '';
 
-    if (entries.length === 0) {
-      entriesContainer.innerHTML = `<div class="empty-state">Belum ada catatan. Tulis jurnal barumu hari ini! 🧸</div>`;
+    // Lakukan penyaringan berdasarkan pencarian dan filter mood
+    const filtered = entries.filter(entry => {
+      const moodMatches = currentFilterMood === 'all' || entry.mood === currentFilterMood;
+      
+      const query = currentSearchQuery.toLowerCase().trim();
+      const contentMatches = !query || 
+        entry.title.toLowerCase().includes(query) || 
+        entry.content.toLowerCase().includes(query) || 
+        entry.tags.some(tag => tag.toLowerCase().includes(query));
+
+      return moodMatches && contentMatches;
+    });
+
+    if (filtered.length === 0) {
+      entriesContainer.innerHTML = `<div class="empty-state">Belum ada catatan yang cocok. Tulis jurnal barumu hari ini! 🧸</div>`;
       return;
     }
 
-    entries.forEach(entry => {
+    filtered.forEach(entry => {
       const card = document.createElement('div');
       card.className = 'polaroid-card';
       card.setAttribute('data-mood', entry.mood);
@@ -189,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const emojiMap = { awesome: '🥰', good: '🙂', neutral: '😐', bad: '🙁', awful: '😭' };
       const dateText = formatDate(entry.date);
-      const tagsHtml = entry.tags.map(t => `<span class="tag-pill">#${t}</span>`).join(' ');
+      const tagsHtml = entry.tags.map(t => `<span class="tag-pill click-tag" data-tag="${t}">#${t}</span>`).join(' ');
 
       card.innerHTML = `
         <div class="washi-tape"></div>
@@ -210,7 +227,18 @@ document.addEventListener('DOMContentLoaded', () => {
       entriesContainer.appendChild(card);
     });
 
-    // Attach deletion button handlers
+    // Event click pada tag pill kartu riwayat untuk pencarian instan
+    entriesContainer.querySelectorAll('.click-tag').forEach(tagEl => {
+      tagEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const tag = tagEl.getAttribute('data-tag');
+        searchInput.value = tag;
+        currentSearchQuery = tag;
+        renderHistory();
+      });
+    });
+
+    // Event click tombol hapus kartu
     entriesContainer.querySelectorAll('.btn-delete-card').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -223,6 +251,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Event listener untuk input pencarian teks
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      currentSearchQuery = searchInput.value;
+      renderHistory();
+    });
+  }
+
+  // Event listener untuk tombol filter mood emoji
+  moodFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      moodFilterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilterMood = btn.getAttribute('data-filter');
+      renderHistory();
+    });
+  });
+
   // Helper date formatter
   function formatDate(isoString) {
     const date = new Date(isoString);
@@ -230,5 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
     return date.toLocaleDateString('id-ID', options);
   }
 
-  console.log("Moody Issue #3: Local Storage & History initialized.");
+  console.log("Moody Issue #4: History Search & Filtering initialized.");
 });

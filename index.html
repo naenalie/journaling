@@ -114,6 +114,26 @@
         <div class="journal-paper">
           <div class="washi-tape washi-yellow washi-top-right"></div>
           <h2 class="handwritten-title">Kenangan Masa Lalu 📖</h2>
+          
+          <!-- Search & Filter Controls -->
+          <div class="search-filter-section sticky-note yellow-note">
+            <div class="form-group">
+              <input type="text" id="search-input" class="scrapbook-input" placeholder="🔍 Cari kata kunci atau tag...">
+            </div>
+            
+            <div class="mood-filter-container">
+              <span class="filter-label">Filter Mood:</span>
+              <div class="mood-filters">
+                <button class="mood-filter-btn active" data-filter="all">Semua</button>
+                <button class="mood-filter-btn" data-filter="awesome">🥰</button>
+                <button class="mood-filter-btn" data-filter="good">🙂</button>
+                <button class="mood-filter-btn" data-filter="neutral">😐</button>
+                <button class="mood-filter-btn" data-filter="bad">🙁</button>
+                <button class="mood-filter-btn" data-filter="awful">😭</button>
+              </div>
+            </div>
+          </div>
+
           <!-- Entries Container -->
           <div id="journal-entries-container" class="entries-masonry">
             <!-- Entries rendered as cute polaroid cards dynamically -->

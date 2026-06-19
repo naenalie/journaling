@@ -588,6 +588,69 @@ body {
 }
 
 /* ==========================================
+   SEARCH & FILTER BAR STYLING
+   ========================================== */
+.search-filter-section {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mood-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--color-navy);
+  font-family: 'Fredoka', sans-serif;
+}
+
+.mood-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mood-filter-btn {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-navy);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-spring);
+  font-family: 'Fredoka', sans-serif;
+}
+
+.mood-filter-btn.active {
+  background-color: var(--accent-yellow);
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 1.5px 1.5px 0px rgba(27,38,59,0.15);
+}
+
+.mood-filter-btn:hover:not(.active) {
+  background-color: #f1ede4;
+}
+
+.sticky-note {
+  border: 2px solid var(--color-navy);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow-handdrawn);
+  position: relative;
+  transition: var(--transition-spring);
+}
+
+.yellow-note { background-color: #fff9db; }
+
+/* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
 @media (max-width: 600px) {
